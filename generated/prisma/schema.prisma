@@ -11,28 +11,38 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role {
+  USER
+  ASSISTANT
+  SYSTEM
+  TOOL
+}
+
 model Trip {
   id          Int           @id @default(autoincrement())
   title       String
   destination String
-  startDate   DateTime
-  endDate     DateTime
+  startDate   DateTime?
+  endDate     DateTime?
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
-  budget      Int
+  budget      Int?
   messages    TripMessage[]
-  plan        TripPlan[]
+  plans       TripPlan[]
   userId      String
+
+  @@index([userId])
 }
 
 model TripMessage {
   id        Int      @id @default(autoincrement())
   tripId    Int
-  trip      Trip     @relation(fields: [tripId], references: [id])
-  message   String
+  trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
-  role      String
+  role      Role
   content   String
+
+  @@index([tripId, createdAt])
 }
 
 model TripPlan {
@@ -41,5 +51,7 @@ model TripPlan {
   sources   Json
   createdAt DateTime @default(now())
   tripId    Int
-  trip      Trip     @relation(fields: [tripId], references: [id])
+  trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)
+
+  @@index([tripId, createdAt])
 }

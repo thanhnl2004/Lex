@@ -108,7 +108,6 @@ exports.Prisma.TripScalarFieldEnum = {
 exports.Prisma.TripMessageScalarFieldEnum = {
   id: 'id',
   tripId: 'tripId',
-  message: 'message',
   createdAt: 'createdAt',
   role: 'role',
   content: 'content'
@@ -136,12 +135,22 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 exports.Prisma.JsonNullValueFilter = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
-
+exports.Role = exports.$Enums.Role = {
+  USER: 'USER',
+  ASSISTANT: 'ASSISTANT',
+  SYSTEM: 'SYSTEM',
+  TOOL: 'TOOL'
+};
 
 exports.Prisma.ModelName = {
   Trip: 'Trip',
@@ -196,13 +205,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Trip {\n  id          Int           @id @default(autoincrement())\n  title       String\n  destination String\n  startDate   DateTime\n  endDate     DateTime\n  createdAt   DateTime      @default(now())\n  updatedAt   DateTime      @updatedAt\n  budget      Int\n  messages    TripMessage[]\n  plan        TripPlan[]\n  userId      String\n}\n\nmodel TripMessage {\n  id        Int      @id @default(autoincrement())\n  tripId    Int\n  trip      Trip     @relation(fields: [tripId], references: [id])\n  message   String\n  createdAt DateTime @default(now())\n  role      String\n  content   String\n}\n\nmodel TripPlan {\n  id        Int      @id @default(autoincrement())\n  plan      Json\n  sources   Json\n  createdAt DateTime @default(now())\n  tripId    Int\n  trip      Trip     @relation(fields: [tripId], references: [id])\n}\n",
-  "inlineSchemaHash": "e3994044b1a679e0046e1f0bee668c77da10690810f2bab3660560142e530fc9",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum Role {\n  USER\n  ASSISTANT\n  SYSTEM\n  TOOL\n}\n\nmodel Trip {\n  id          Int           @id @default(autoincrement())\n  title       String\n  destination String\n  startDate   DateTime?\n  endDate     DateTime?\n  createdAt   DateTime      @default(now())\n  updatedAt   DateTime      @updatedAt\n  budget      Int?\n  messages    TripMessage[]\n  plans       TripPlan[]\n  userId      String\n\n  @@index([userId])\n}\n\nmodel TripMessage {\n  id        Int      @id @default(autoincrement())\n  tripId    Int\n  trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)\n  createdAt DateTime @default(now())\n  role      Role\n  content   String\n\n  @@index([tripId, createdAt])\n}\n\nmodel TripPlan {\n  id        Int      @id @default(autoincrement())\n  plan      Json\n  sources   Json\n  createdAt DateTime @default(now())\n  tripId    Int\n  trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)\n\n  @@index([tripId, createdAt])\n}\n",
+  "inlineSchemaHash": "5944154129988a062dbf9dc469c66f06646dd667230c9c56d4891ea7ebf0758b",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Trip\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"destination\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"startDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"budget\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"messages\",\"kind\":\"object\",\"type\":\"TripMessage\",\"relationName\":\"TripToTripMessage\"},{\"name\":\"plan\",\"kind\":\"object\",\"type\":\"TripPlan\",\"relationName\":\"TripToTripPlan\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"TripMessage\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"tripId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"trip\",\"kind\":\"object\",\"type\":\"Trip\",\"relationName\":\"TripToTripMessage\"},{\"name\":\"message\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"role\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"TripPlan\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"plan\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"sources\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"tripId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"trip\",\"kind\":\"object\",\"type\":\"Trip\",\"relationName\":\"TripToTripPlan\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Trip\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"destination\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"startDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"budget\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"messages\",\"kind\":\"object\",\"type\":\"TripMessage\",\"relationName\":\"TripToTripMessage\"},{\"name\":\"plans\",\"kind\":\"object\",\"type\":\"TripPlan\",\"relationName\":\"TripToTripPlan\"},{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"TripMessage\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"tripId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"trip\",\"kind\":\"object\",\"type\":\"Trip\",\"relationName\":\"TripToTripMessage\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"TripPlan\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"plan\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"sources\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"tripId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"trip\",\"kind\":\"object\",\"type\":\"Trip\",\"relationName\":\"TripToTripPlan\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

@@ -5,13 +5,12 @@ import { createClient } from "@/lib/supabase/server";
 import { AuthButton } from "../components/auth-button";
 
 export default async function Home() {
-  const hello = await api.hello.hello({ text: "from tRPC" });
+
   const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  void api.hello.hello.prefetch({ text: "Hello" });
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center text-black">

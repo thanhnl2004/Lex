@@ -136,7 +136,6 @@ exports.Prisma.TripScalarFieldEnum = {
 exports.Prisma.TripMessageScalarFieldEnum = {
   id: 'id',
   tripId: 'tripId',
-  message: 'message',
   createdAt: 'createdAt',
   role: 'role',
   content: 'content'
@@ -164,12 +163,22 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
 exports.Prisma.JsonNullValueFilter = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
 };
-
+exports.Role = exports.$Enums.Role = {
+  USER: 'USER',
+  ASSISTANT: 'ASSISTANT',
+  SYSTEM: 'SYSTEM',
+  TOOL: 'TOOL'
+};
 
 exports.Prisma.ModelName = {
   Trip: 'Trip',
