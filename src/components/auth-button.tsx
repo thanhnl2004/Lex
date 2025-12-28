@@ -3,6 +3,7 @@
 import { createClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { type User } from "@supabase/supabase-js";
+import { Button } from "@/components/ui/button";
 
 export function SignInButton() {
   const supabase = createClient();
@@ -17,7 +18,7 @@ export function SignInButton() {
   };
 
   return (
-    <button
+    <Button
       onClick={handleSignIn}
       className="flex items-center gap-2 rounded-lg bg-white px-6 py-3 font-medium text-gray-700 shadow-md transition-all hover:bg-gray-50 hover:shadow-lg"
     >
@@ -40,7 +41,7 @@ export function SignInButton() {
         />
       </svg>
       Sign in with Google
-    </button>
+    </Button>
   );
 }
 
@@ -54,12 +55,12 @@ export function SignOutButton() {
   };
 
   return (
-    <button
+    <Button
       onClick={handleSignOut}
       className="rounded-lg bg-gray-800 px-6 py-3 font-medium text-white transition-all hover:bg-gray-700"
     >
       Sign out
-    </button>
+    </Button>
   );
 }
 

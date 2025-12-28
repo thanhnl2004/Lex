@@ -2,7 +2,7 @@ import Link from "next/link";
 
 import { api } from "@/trpc/server";
 import { createClient } from "@/lib/supabase/server";
-import { AuthButton } from "./components/auth-button";
+import { AuthButton } from "../components/auth-button";
 
 export default async function Home() {
   const hello = await api.hello.hello({ text: "from tRPC" });
