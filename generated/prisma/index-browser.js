@@ -121,11 +121,33 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
-exports.Prisma.PostScalarFieldEnum = {
+exports.Prisma.TripScalarFieldEnum = {
   id: 'id',
-  name: 'name',
+  title: 'title',
+  destination: 'destination',
+  startDate: 'startDate',
+  endDate: 'endDate',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  budget: 'budget',
+  userId: 'userId'
+};
+
+exports.Prisma.TripMessageScalarFieldEnum = {
+  id: 'id',
+  tripId: 'tripId',
+  message: 'message',
+  createdAt: 'createdAt',
+  role: 'role',
+  content: 'content'
+};
+
+exports.Prisma.TripPlanScalarFieldEnum = {
+  id: 'id',
+  plan: 'plan',
+  sources: 'sources',
+  createdAt: 'createdAt',
+  tripId: 'tripId'
 };
 
 exports.Prisma.SortOrder = {
@@ -133,14 +155,26 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 };
 
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
 
 exports.Prisma.ModelName = {
-  Post: 'Post'
+  Trip: 'Trip',
+  TripMessage: 'TripMessage',
+  TripPlan: 'TripPlan'
 };
 
 /**

@@ -8,13 +8,41 @@ generator client {
 
 datasource db {
     provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
-model Post {
+model Trip {
+    id          Int           @id @default(autoincrement())
+    title       String
+    destination String
+    startDate   DateTime
+    endDate     DateTime
+    createdAt   DateTime      @default(now())
+    updatedAt   DateTime      @updatedAt
+    budget      Int
+    messages    TripMessage[]
+    plan        TripPlan[]
+    userId      String
+}
+
+model TripMessage {
     id        Int      @id @default(autoincrement())
-    name      String
+    tripId    Int     
+    trip      Trip     @relation(fields: [tripId], references: [id])
+    message   String
     createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    role      String
+    content   String
 
-    @@index([name])
 }
+
+model TripPlan {
+    id        Int      @id @default(autoincrement())
+    plan      Json
+    sources   Json
+    createdAt DateTime @default(now())
+    tripId    Int     
+    trip      Trip     @relation(fields: [tripId], references: [id])
+}
+
+

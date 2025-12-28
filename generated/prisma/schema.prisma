@@ -11,11 +11,35 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Trip {
+  id          Int           @id @default(autoincrement())
+  title       String
+  destination String
+  startDate   DateTime
+  endDate     DateTime
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  budget      Int
+  messages    TripMessage[]
+  plan        TripPlan[]
+  userId      String
+}
 
-  @@index([name])
+model TripMessage {
+  id        Int      @id @default(autoincrement())
+  tripId    Int
+  trip      Trip     @relation(fields: [tripId], references: [id])
+  message   String
+  createdAt DateTime @default(now())
+  role      String
+  content   String
+}
+
+model TripPlan {
+  id        Int      @id @default(autoincrement())
+  plan      Json
+  sources   Json
+  createdAt DateTime @default(now())
+  tripId    Int
+  trip      Trip     @relation(fields: [tripId], references: [id])
 }
