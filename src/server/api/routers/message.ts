@@ -7,7 +7,7 @@ export const messageRouter = createTRPCRouter({
     .input(z.object({
       tripId: z.number(),
       content: z.string(),
-      role: z.enum(["user", "assistant"]),
+      role: z.enum(["USER", "ASSISTANT", "SYSTEM", "TOOL"]),
     }))
     .mutation(async ({ ctx, input }) => {
       const { tripId, content, role } = input;
