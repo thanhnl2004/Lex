@@ -130,6 +130,11 @@ exports.Prisma.JsonNullValueInput = {
   JsonNull: Prisma.JsonNull
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -205,8 +210,8 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum Role {\n  USER\n  ASSISTANT\n  SYSTEM\n  TOOL\n}\n\nmodel Trip {\n  userId      String\n  id          Int           @id @default(autoincrement())\n  title       String\n  destination String\n  startDate   DateTime?\n  endDate     DateTime?\n  createdAt   DateTime      @default(now())\n  updatedAt   DateTime      @updatedAt\n  budget      Int?\n  messages    TripMessage[]\n  plans       TripPlan[]\n\n  @@index([userId])\n}\n\nmodel TripMessage {\n  id        Int      @id @default(autoincrement())\n  tripId    Int\n  trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)\n  createdAt DateTime @default(now())\n  role      Role\n  content   String\n\n  @@index([tripId, createdAt])\n}\n\nmodel TripPlan {\n  id        Int      @id @default(autoincrement())\n  plan      Json\n  sources   Json\n  createdAt DateTime @default(now())\n  tripId    Int\n  trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)\n\n  @@index([tripId, createdAt])\n}\n",
-  "inlineSchemaHash": "09508a23dac06a63c85c8d64d364f6bd7b89afa02ddad9db119d05a490e9d5c3",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum Role {\n  USER\n  ASSISTANT\n  SYSTEM\n  TOOL\n}\n\nmodel Trip {\n  userId      String\n  id          Int           @id @default(autoincrement())\n  title       String\n  destination String\n  startDate   DateTime?\n  endDate     DateTime?\n  createdAt   DateTime      @default(now())\n  updatedAt   DateTime      @updatedAt\n  budget      Int?\n  messages    TripMessage[]\n  plans       TripPlan[]\n\n  @@index([userId])\n}\n\nmodel TripMessage {\n  id        Int      @id @default(autoincrement())\n  tripId    Int\n  trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)\n  createdAt DateTime @default(now())\n  role      Role\n  content   String\n\n  @@index([tripId, createdAt])\n}\n\nmodel TripPlan {\n  id        Int      @id @default(autoincrement())\n  plan      Json\n  sources   Json?\n  createdAt DateTime @default(now())\n  tripId    Int\n  trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)\n\n  @@index([tripId, createdAt])\n}\n",
+  "inlineSchemaHash": "4c7bd83fc935cb44e0f396e72e27a9b21d23dd626702b30230eacd897744e791",
   "copyEngine": true
 }
 config.dirname = '/'

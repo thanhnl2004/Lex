@@ -3549,7 +3549,7 @@ export namespace Prisma {
   export type TripPlanGroupByOutputType = {
     id: number
     plan: JsonValue
-    sources: JsonValue
+    sources: JsonValue | null
     createdAt: Date
     tripId: number
     _count: TripPlanCountAggregateOutputType | null
@@ -3627,7 +3627,7 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: number
       plan: Prisma.JsonValue
-      sources: Prisma.JsonValue
+      sources: Prisma.JsonValue | null
       createdAt: Date
       tripId: number
     }, ExtArgs["result"]["tripPlan"]>
@@ -4539,6 +4539,14 @@ export namespace Prisma {
   export type JsonNullValueInput = (typeof JsonNullValueInput)[keyof typeof JsonNullValueInput]
 
 
+  export const NullableJsonNullValueInput: {
+    DbNull: typeof DbNull,
+    JsonNull: typeof JsonNull
+  };
+
+  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
+
+
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
@@ -4799,7 +4807,7 @@ export namespace Prisma {
     NOT?: TripPlanWhereInput | TripPlanWhereInput[]
     id?: IntFilter<"TripPlan"> | number
     plan?: JsonFilter<"TripPlan">
-    sources?: JsonFilter<"TripPlan">
+    sources?: JsonNullableFilter<"TripPlan">
     createdAt?: DateTimeFilter<"TripPlan"> | Date | string
     tripId?: IntFilter<"TripPlan"> | number
     trip?: XOR<TripScalarRelationFilter, TripWhereInput>
@@ -4808,7 +4816,7 @@ export namespace Prisma {
   export type TripPlanOrderByWithRelationInput = {
     id?: SortOrder
     plan?: SortOrder
-    sources?: SortOrder
+    sources?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     tripId?: SortOrder
     trip?: TripOrderByWithRelationInput
@@ -4820,7 +4828,7 @@ export namespace Prisma {
     OR?: TripPlanWhereInput[]
     NOT?: TripPlanWhereInput | TripPlanWhereInput[]
     plan?: JsonFilter<"TripPlan">
-    sources?: JsonFilter<"TripPlan">
+    sources?: JsonNullableFilter<"TripPlan">
     createdAt?: DateTimeFilter<"TripPlan"> | Date | string
     tripId?: IntFilter<"TripPlan"> | number
     trip?: XOR<TripScalarRelationFilter, TripWhereInput>
@@ -4829,7 +4837,7 @@ export namespace Prisma {
   export type TripPlanOrderByWithAggregationInput = {
     id?: SortOrder
     plan?: SortOrder
-    sources?: SortOrder
+    sources?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     tripId?: SortOrder
     _count?: TripPlanCountOrderByAggregateInput
@@ -4845,7 +4853,7 @@ export namespace Prisma {
     NOT?: TripPlanScalarWhereWithAggregatesInput | TripPlanScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"TripPlan"> | number
     plan?: JsonWithAggregatesFilter<"TripPlan">
-    sources?: JsonWithAggregatesFilter<"TripPlan">
+    sources?: JsonNullableWithAggregatesFilter<"TripPlan">
     createdAt?: DateTimeWithAggregatesFilter<"TripPlan"> | Date | string
     tripId?: IntWithAggregatesFilter<"TripPlan"> | number
   }
@@ -4993,7 +5001,7 @@ export namespace Prisma {
 
   export type TripPlanCreateInput = {
     plan: JsonNullValueInput | InputJsonValue
-    sources: JsonNullValueInput | InputJsonValue
+    sources?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     trip: TripCreateNestedOneWithoutPlansInput
   }
@@ -5001,14 +5009,14 @@ export namespace Prisma {
   export type TripPlanUncheckedCreateInput = {
     id?: number
     plan: JsonNullValueInput | InputJsonValue
-    sources: JsonNullValueInput | InputJsonValue
+    sources?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     tripId: number
   }
 
   export type TripPlanUpdateInput = {
     plan?: JsonNullValueInput | InputJsonValue
-    sources?: JsonNullValueInput | InputJsonValue
+    sources?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     trip?: TripUpdateOneRequiredWithoutPlansNestedInput
   }
@@ -5016,7 +5024,7 @@ export namespace Prisma {
   export type TripPlanUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     plan?: JsonNullValueInput | InputJsonValue
-    sources?: JsonNullValueInput | InputJsonValue
+    sources?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tripId?: IntFieldUpdateOperationsInput | number
   }
@@ -5024,21 +5032,21 @@ export namespace Prisma {
   export type TripPlanCreateManyInput = {
     id?: number
     plan: JsonNullValueInput | InputJsonValue
-    sources: JsonNullValueInput | InputJsonValue
+    sources?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     tripId: number
   }
 
   export type TripPlanUpdateManyMutationInput = {
     plan?: JsonNullValueInput | InputJsonValue
-    sources?: JsonNullValueInput | InputJsonValue
+    sources?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TripPlanUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     plan?: JsonNullValueInput | InputJsonValue
-    sources?: JsonNullValueInput | InputJsonValue
+    sources?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     tripId?: IntFieldUpdateOperationsInput | number
   }
@@ -5329,6 +5337,29 @@ export namespace Prisma {
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type TripPlanCountOrderByAggregateInput = {
     id?: SortOrder
@@ -5384,6 +5415,32 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedJsonFilter<$PrismaModel>
     _max?: NestedJsonFilter<$PrismaModel>
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type TripMessageCreateNestedManyWithoutTripInput = {
@@ -5726,6 +5783,29 @@ export namespace Prisma {
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
+  export type NestedJsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
 
   export type TripMessageCreateWithoutTripInput = {
     createdAt?: Date | string
@@ -5752,14 +5832,14 @@ export namespace Prisma {
 
   export type TripPlanCreateWithoutTripInput = {
     plan: JsonNullValueInput | InputJsonValue
-    sources: JsonNullValueInput | InputJsonValue
+    sources?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
   }
 
   export type TripPlanUncheckedCreateWithoutTripInput = {
     id?: number
     plan: JsonNullValueInput | InputJsonValue
-    sources: JsonNullValueInput | InputJsonValue
+    sources?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
   }
 
@@ -5822,7 +5902,7 @@ export namespace Prisma {
     NOT?: TripPlanScalarWhereInput | TripPlanScalarWhereInput[]
     id?: IntFilter<"TripPlan"> | number
     plan?: JsonFilter<"TripPlan">
-    sources?: JsonFilter<"TripPlan">
+    sources?: JsonNullableFilter<"TripPlan">
     createdAt?: DateTimeFilter<"TripPlan"> | Date | string
     tripId?: IntFilter<"TripPlan"> | number
   }
@@ -5969,7 +6049,7 @@ export namespace Prisma {
   export type TripPlanCreateManyTripInput = {
     id?: number
     plan: JsonNullValueInput | InputJsonValue
-    sources: JsonNullValueInput | InputJsonValue
+    sources?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
   }
 
@@ -5995,21 +6075,21 @@ export namespace Prisma {
 
   export type TripPlanUpdateWithoutTripInput = {
     plan?: JsonNullValueInput | InputJsonValue
-    sources?: JsonNullValueInput | InputJsonValue
+    sources?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TripPlanUncheckedUpdateWithoutTripInput = {
     id?: IntFieldUpdateOperationsInput | number
     plan?: JsonNullValueInput | InputJsonValue
-    sources?: JsonNullValueInput | InputJsonValue
+    sources?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type TripPlanUncheckedUpdateManyWithoutTripInput = {
     id?: IntFieldUpdateOperationsInput | number
     plan?: JsonNullValueInput | InputJsonValue
-    sources?: JsonNullValueInput | InputJsonValue
+    sources?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
