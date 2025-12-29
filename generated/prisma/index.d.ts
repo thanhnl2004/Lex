@@ -1124,6 +1124,7 @@ export namespace Prisma {
   }
 
   export type TripMinAggregateOutputType = {
+    userId: string | null
     id: number | null
     title: string | null
     destination: string | null
@@ -1132,10 +1133,10 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     budget: number | null
-    userId: string | null
   }
 
   export type TripMaxAggregateOutputType = {
+    userId: string | null
     id: number | null
     title: string | null
     destination: string | null
@@ -1144,10 +1145,10 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     budget: number | null
-    userId: string | null
   }
 
   export type TripCountAggregateOutputType = {
+    userId: number
     id: number
     title: number
     destination: number
@@ -1156,7 +1157,6 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     budget: number
-    userId: number
     _all: number
   }
 
@@ -1172,6 +1172,7 @@ export namespace Prisma {
   }
 
   export type TripMinAggregateInputType = {
+    userId?: true
     id?: true
     title?: true
     destination?: true
@@ -1180,10 +1181,10 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     budget?: true
-    userId?: true
   }
 
   export type TripMaxAggregateInputType = {
+    userId?: true
     id?: true
     title?: true
     destination?: true
@@ -1192,10 +1193,10 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     budget?: true
-    userId?: true
   }
 
   export type TripCountAggregateInputType = {
+    userId?: true
     id?: true
     title?: true
     destination?: true
@@ -1204,7 +1205,6 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     budget?: true
-    userId?: true
     _all?: true
   }
 
@@ -1295,6 +1295,7 @@ export namespace Prisma {
   }
 
   export type TripGroupByOutputType = {
+    userId: string
     id: number
     title: string
     destination: string
@@ -1303,7 +1304,6 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     budget: number | null
-    userId: string
     _count: TripCountAggregateOutputType | null
     _avg: TripAvgAggregateOutputType | null
     _sum: TripSumAggregateOutputType | null
@@ -1326,6 +1326,7 @@ export namespace Prisma {
 
 
   export type TripSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
     id?: boolean
     title?: boolean
     destination?: boolean
@@ -1334,13 +1335,13 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     budget?: boolean
-    userId?: boolean
     messages?: boolean | Trip$messagesArgs<ExtArgs>
     plans?: boolean | Trip$plansArgs<ExtArgs>
     _count?: boolean | TripCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["trip"]>
 
   export type TripSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
     id?: boolean
     title?: boolean
     destination?: boolean
@@ -1349,10 +1350,10 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     budget?: boolean
-    userId?: boolean
   }, ExtArgs["result"]["trip"]>
 
   export type TripSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    userId?: boolean
     id?: boolean
     title?: boolean
     destination?: boolean
@@ -1361,10 +1362,10 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     budget?: boolean
-    userId?: boolean
   }, ExtArgs["result"]["trip"]>
 
   export type TripSelectScalar = {
+    userId?: boolean
     id?: boolean
     title?: boolean
     destination?: boolean
@@ -1373,10 +1374,9 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     budget?: boolean
-    userId?: boolean
   }
 
-  export type TripOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "destination" | "startDate" | "endDate" | "createdAt" | "updatedAt" | "budget" | "userId", ExtArgs["result"]["trip"]>
+  export type TripOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"userId" | "id" | "title" | "destination" | "startDate" | "endDate" | "createdAt" | "updatedAt" | "budget", ExtArgs["result"]["trip"]>
   export type TripInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     messages?: boolean | Trip$messagesArgs<ExtArgs>
     plans?: boolean | Trip$plansArgs<ExtArgs>
@@ -1392,6 +1392,7 @@ export namespace Prisma {
       plans: Prisma.$TripPlanPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
+      userId: string
       id: number
       title: string
       destination: string
@@ -1400,7 +1401,6 @@ export namespace Prisma {
       createdAt: Date
       updatedAt: Date
       budget: number | null
-      userId: string
     }, ExtArgs["result"]["trip"]>
     composites: {}
   }
@@ -1484,8 +1484,8 @@ export namespace Prisma {
      * // Get first 10 Trips
      * const trips = await prisma.trip.findMany({ take: 10 })
      * 
-     * // Only select the `id`
-     * const tripWithIdOnly = await prisma.trip.findMany({ select: { id: true } })
+     * // Only select the `userId`
+     * const tripWithUserIdOnly = await prisma.trip.findMany({ select: { userId: true } })
      * 
      */
     findMany<T extends TripFindManyArgs>(args?: SelectSubset<T, TripFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TripPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -1529,9 +1529,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Create many Trips and only return the `id`
-     * const tripWithIdOnly = await prisma.trip.createManyAndReturn({
-     *   select: { id: true },
+     * // Create many Trips and only return the `userId`
+     * const tripWithUserIdOnly = await prisma.trip.createManyAndReturn({
+     *   select: { userId: true },
      *   data: [
      *     // ... provide data here
      *   ]
@@ -1620,9 +1620,9 @@ export namespace Prisma {
      *   ]
      * })
      * 
-     * // Update zero or more Trips and only return the `id`
-     * const tripWithIdOnly = await prisma.trip.updateManyAndReturn({
-     *   select: { id: true },
+     * // Update zero or more Trips and only return the `userId`
+     * const tripWithUserIdOnly = await prisma.trip.updateManyAndReturn({
+     *   select: { userId: true },
      *   where: {
      *     // ... provide filter here
      *   },
@@ -1826,6 +1826,7 @@ export namespace Prisma {
    * Fields of the Trip model
    */
   interface TripFieldRefs {
+    readonly userId: FieldRef<"Trip", 'String'>
     readonly id: FieldRef<"Trip", 'Int'>
     readonly title: FieldRef<"Trip", 'String'>
     readonly destination: FieldRef<"Trip", 'String'>
@@ -1834,7 +1835,6 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Trip", 'DateTime'>
     readonly updatedAt: FieldRef<"Trip", 'DateTime'>
     readonly budget: FieldRef<"Trip", 'Int'>
-    readonly userId: FieldRef<"Trip", 'String'>
   }
     
 
@@ -4488,6 +4488,7 @@ export namespace Prisma {
 
 
   export const TripScalarFieldEnum: {
+    userId: 'userId',
     id: 'id',
     title: 'title',
     destination: 'destination',
@@ -4495,8 +4496,7 @@ export namespace Prisma {
     endDate: 'endDate',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    budget: 'budget',
-    userId: 'userId'
+    budget: 'budget'
   };
 
   export type TripScalarFieldEnum = (typeof TripScalarFieldEnum)[keyof typeof TripScalarFieldEnum]
@@ -4570,20 +4570,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Int'
-   */
-  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
-    
-
-
-  /**
-   * Reference to a field of type 'Int[]'
-   */
-  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
-    
-
-
-  /**
    * Reference to a field of type 'String'
    */
   export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
@@ -4594,6 +4580,20 @@ export namespace Prisma {
    * Reference to a field of type 'String[]'
    */
   export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
     
 
 
@@ -4660,6 +4660,7 @@ export namespace Prisma {
     AND?: TripWhereInput | TripWhereInput[]
     OR?: TripWhereInput[]
     NOT?: TripWhereInput | TripWhereInput[]
+    userId?: StringFilter<"Trip"> | string
     id?: IntFilter<"Trip"> | number
     title?: StringFilter<"Trip"> | string
     destination?: StringFilter<"Trip"> | string
@@ -4668,12 +4669,12 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Trip"> | Date | string
     updatedAt?: DateTimeFilter<"Trip"> | Date | string
     budget?: IntNullableFilter<"Trip"> | number | null
-    userId?: StringFilter<"Trip"> | string
     messages?: TripMessageListRelationFilter
     plans?: TripPlanListRelationFilter
   }
 
   export type TripOrderByWithRelationInput = {
+    userId?: SortOrder
     id?: SortOrder
     title?: SortOrder
     destination?: SortOrder
@@ -4682,7 +4683,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     budget?: SortOrderInput | SortOrder
-    userId?: SortOrder
     messages?: TripMessageOrderByRelationAggregateInput
     plans?: TripPlanOrderByRelationAggregateInput
   }
@@ -4692,6 +4692,7 @@ export namespace Prisma {
     AND?: TripWhereInput | TripWhereInput[]
     OR?: TripWhereInput[]
     NOT?: TripWhereInput | TripWhereInput[]
+    userId?: StringFilter<"Trip"> | string
     title?: StringFilter<"Trip"> | string
     destination?: StringFilter<"Trip"> | string
     startDate?: DateTimeNullableFilter<"Trip"> | Date | string | null
@@ -4699,12 +4700,12 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Trip"> | Date | string
     updatedAt?: DateTimeFilter<"Trip"> | Date | string
     budget?: IntNullableFilter<"Trip"> | number | null
-    userId?: StringFilter<"Trip"> | string
     messages?: TripMessageListRelationFilter
     plans?: TripPlanListRelationFilter
   }, "id">
 
   export type TripOrderByWithAggregationInput = {
+    userId?: SortOrder
     id?: SortOrder
     title?: SortOrder
     destination?: SortOrder
@@ -4713,7 +4714,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     budget?: SortOrderInput | SortOrder
-    userId?: SortOrder
     _count?: TripCountOrderByAggregateInput
     _avg?: TripAvgOrderByAggregateInput
     _max?: TripMaxOrderByAggregateInput
@@ -4725,6 +4725,7 @@ export namespace Prisma {
     AND?: TripScalarWhereWithAggregatesInput | TripScalarWhereWithAggregatesInput[]
     OR?: TripScalarWhereWithAggregatesInput[]
     NOT?: TripScalarWhereWithAggregatesInput | TripScalarWhereWithAggregatesInput[]
+    userId?: StringWithAggregatesFilter<"Trip"> | string
     id?: IntWithAggregatesFilter<"Trip"> | number
     title?: StringWithAggregatesFilter<"Trip"> | string
     destination?: StringWithAggregatesFilter<"Trip"> | string
@@ -4733,7 +4734,6 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Trip"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Trip"> | Date | string
     budget?: IntNullableWithAggregatesFilter<"Trip"> | number | null
-    userId?: StringWithAggregatesFilter<"Trip"> | string
   }
 
   export type TripMessageWhereInput = {
@@ -4851,6 +4851,7 @@ export namespace Prisma {
   }
 
   export type TripCreateInput = {
+    userId: string
     title: string
     destination: string
     startDate?: Date | string | null
@@ -4858,12 +4859,12 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     budget?: number | null
-    userId: string
     messages?: TripMessageCreateNestedManyWithoutTripInput
     plans?: TripPlanCreateNestedManyWithoutTripInput
   }
 
   export type TripUncheckedCreateInput = {
+    userId: string
     id?: number
     title: string
     destination: string
@@ -4872,12 +4873,12 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     budget?: number | null
-    userId: string
     messages?: TripMessageUncheckedCreateNestedManyWithoutTripInput
     plans?: TripPlanUncheckedCreateNestedManyWithoutTripInput
   }
 
   export type TripUpdateInput = {
+    userId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4885,12 +4886,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     budget?: NullableIntFieldUpdateOperationsInput | number | null
-    userId?: StringFieldUpdateOperationsInput | string
     messages?: TripMessageUpdateManyWithoutTripNestedInput
     plans?: TripPlanUpdateManyWithoutTripNestedInput
   }
 
   export type TripUncheckedUpdateInput = {
+    userId?: StringFieldUpdateOperationsInput | string
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
@@ -4899,12 +4900,12 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     budget?: NullableIntFieldUpdateOperationsInput | number | null
-    userId?: StringFieldUpdateOperationsInput | string
     messages?: TripMessageUncheckedUpdateManyWithoutTripNestedInput
     plans?: TripPlanUncheckedUpdateManyWithoutTripNestedInput
   }
 
   export type TripCreateManyInput = {
+    userId: string
     id?: number
     title: string
     destination: string
@@ -4913,10 +4914,10 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     budget?: number | null
-    userId: string
   }
 
   export type TripUpdateManyMutationInput = {
+    userId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -4924,10 +4925,10 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     budget?: NullableIntFieldUpdateOperationsInput | number | null
-    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type TripUncheckedUpdateManyInput = {
+    userId?: StringFieldUpdateOperationsInput | string
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
@@ -4936,7 +4937,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     budget?: NullableIntFieldUpdateOperationsInput | number | null
-    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type TripMessageCreateInput = {
@@ -5043,17 +5043,6 @@ export namespace Prisma {
     tripId?: IntFieldUpdateOperationsInput | number
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -5067,6 +5056,17 @@ export namespace Prisma {
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
     not?: NestedStringFilter<$PrismaModel> | string
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type DateTimeNullableFilter<$PrismaModel = never> = {
@@ -5128,6 +5128,7 @@ export namespace Prisma {
   }
 
   export type TripCountOrderByAggregateInput = {
+    userId?: SortOrder
     id?: SortOrder
     title?: SortOrder
     destination?: SortOrder
@@ -5136,7 +5137,6 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     budget?: SortOrder
-    userId?: SortOrder
   }
 
   export type TripAvgOrderByAggregateInput = {
@@ -5145,6 +5145,7 @@ export namespace Prisma {
   }
 
   export type TripMaxOrderByAggregateInput = {
+    userId?: SortOrder
     id?: SortOrder
     title?: SortOrder
     destination?: SortOrder
@@ -5153,10 +5154,10 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     budget?: SortOrder
-    userId?: SortOrder
   }
 
   export type TripMinOrderByAggregateInput = {
+    userId?: SortOrder
     id?: SortOrder
     title?: SortOrder
     destination?: SortOrder
@@ -5165,28 +5166,11 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     budget?: SortOrder
-    userId?: SortOrder
   }
 
   export type TripSumOrderByAggregateInput = {
     id?: SortOrder
     budget?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {
@@ -5205,6 +5189,22 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedStringFilter<$PrismaModel>
     _max?: NestedStringFilter<$PrismaModel>
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -5530,17 +5530,6 @@ export namespace Prisma {
     update?: XOR<XOR<TripUpdateToOneWithWhereWithoutPlansInput, TripUpdateWithoutPlansInput>, TripUncheckedUpdateWithoutPlansInput>
   }
 
-  export type NestedIntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -5553,6 +5542,17 @@ export namespace Prisma {
     startsWith?: string | StringFieldRefInput<$PrismaModel>
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     not?: NestedStringFilter<$PrismaModel> | string
+  }
+
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
@@ -5588,6 +5588,23 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -5613,23 +5630,6 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
-  }
-
-  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel>
-    in?: string[] | ListStringFieldRefInput<$PrismaModel>
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
-    _count?: NestedIntFilter<$PrismaModel>
-    _min?: NestedStringFilter<$PrismaModel>
-    _max?: NestedStringFilter<$PrismaModel>
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -5828,6 +5828,7 @@ export namespace Prisma {
   }
 
   export type TripCreateWithoutMessagesInput = {
+    userId: string
     title: string
     destination: string
     startDate?: Date | string | null
@@ -5835,11 +5836,11 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     budget?: number | null
-    userId: string
     plans?: TripPlanCreateNestedManyWithoutTripInput
   }
 
   export type TripUncheckedCreateWithoutMessagesInput = {
+    userId: string
     id?: number
     title: string
     destination: string
@@ -5848,7 +5849,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     budget?: number | null
-    userId: string
     plans?: TripPlanUncheckedCreateNestedManyWithoutTripInput
   }
 
@@ -5869,6 +5869,7 @@ export namespace Prisma {
   }
 
   export type TripUpdateWithoutMessagesInput = {
+    userId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5876,11 +5877,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     budget?: NullableIntFieldUpdateOperationsInput | number | null
-    userId?: StringFieldUpdateOperationsInput | string
     plans?: TripPlanUpdateManyWithoutTripNestedInput
   }
 
   export type TripUncheckedUpdateWithoutMessagesInput = {
+    userId?: StringFieldUpdateOperationsInput | string
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
@@ -5889,11 +5890,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     budget?: NullableIntFieldUpdateOperationsInput | number | null
-    userId?: StringFieldUpdateOperationsInput | string
     plans?: TripPlanUncheckedUpdateManyWithoutTripNestedInput
   }
 
   export type TripCreateWithoutPlansInput = {
+    userId: string
     title: string
     destination: string
     startDate?: Date | string | null
@@ -5901,11 +5902,11 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     budget?: number | null
-    userId: string
     messages?: TripMessageCreateNestedManyWithoutTripInput
   }
 
   export type TripUncheckedCreateWithoutPlansInput = {
+    userId: string
     id?: number
     title: string
     destination: string
@@ -5914,7 +5915,6 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     budget?: number | null
-    userId: string
     messages?: TripMessageUncheckedCreateNestedManyWithoutTripInput
   }
 
@@ -5935,6 +5935,7 @@ export namespace Prisma {
   }
 
   export type TripUpdateWithoutPlansInput = {
+    userId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
     startDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -5942,11 +5943,11 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     budget?: NullableIntFieldUpdateOperationsInput | number | null
-    userId?: StringFieldUpdateOperationsInput | string
     messages?: TripMessageUpdateManyWithoutTripNestedInput
   }
 
   export type TripUncheckedUpdateWithoutPlansInput = {
+    userId?: StringFieldUpdateOperationsInput | string
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     destination?: StringFieldUpdateOperationsInput | string
@@ -5955,7 +5956,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     budget?: NullableIntFieldUpdateOperationsInput | number | null
-    userId?: StringFieldUpdateOperationsInput | string
     messages?: TripMessageUncheckedUpdateManyWithoutTripNestedInput
   }
 

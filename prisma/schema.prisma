@@ -19,6 +19,7 @@ enum Role {
 }
 
 model Trip {
+    userId      String
     id          Int           @id @default(autoincrement())
     title       String
     destination String
@@ -29,7 +30,6 @@ model Trip {
     budget      Int?
     messages    TripMessage[]
     plans       TripPlan[]
-    userId      String
 
     @@index([userId])
 }

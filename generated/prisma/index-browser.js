@@ -122,6 +122,7 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 });
 
 exports.Prisma.TripScalarFieldEnum = {
+  userId: 'userId',
   id: 'id',
   title: 'title',
   destination: 'destination',
@@ -129,8 +130,7 @@ exports.Prisma.TripScalarFieldEnum = {
   endDate: 'endDate',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  budget: 'budget',
-  userId: 'userId'
+  budget: 'budget'
 };
 
 exports.Prisma.TripMessageScalarFieldEnum = {

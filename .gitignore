@@ -47,3 +47,6 @@ yarn-error.log*
 
 # MACOS files
 .DS_Store
+
+# cursor files
+.cursor
