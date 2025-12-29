@@ -4,6 +4,8 @@ import { type Metadata } from "next";
 import { Inter, Merriweather, JetBrains_Mono } from "next/font/google";
 
 import { TRPCReactProvider } from "@/trpc/react";
+import { AuthProvider } from "@/contexts/auth-context";
+import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
   title: "Travel Planner",
@@ -27,16 +29,22 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
 });
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
   return (
     <html
       lang="en"
       className={`${inter.variable} ${merriweather.variable} ${jetbrainsMono.variable}`}
     >
       <body className="font-sans antialiased">
-        <TRPCReactProvider>{children}</TRPCReactProvider>
+        <TRPCReactProvider>
+          <AuthProvider user={user}>
+            {children}
+          </AuthProvider>
+        </TRPCReactProvider>
       </body>
     </html>
   );

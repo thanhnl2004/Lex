@@ -1,31 +1,51 @@
-import Link from "next/link";
+import { AppSidebar } from "@/components/dashboard/app-sidebar";
+import { ChartAreaInteractive } from "@/components/dashboard/chart-area-interactive";
+import { DataTable } from "@/components/dashboard/data-table";
+import { SectionCards } from "@/components/dashboard/section-cards";
+import { SiteHeader } from "@/components/dashboard/site-header";
+import {
+  SidebarInset,
+  SidebarProvider,
+} from "@/components/ui/sidebar";
 
-import { api } from "@/trpc/server";
 import { createClient } from "@/lib/supabase/server";
-import { AuthButton } from "../components/auth-button";
+import { SignInButton } from "@/components/auth-button";
 
-export default async function Home() {
-
+export default async function Page() {
   const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
 
-
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-center text-black">
-      <div className="container flex flex-col items-center justify-center gap-12 px-4 py-16">
-
-        {/* Auth Section */}
-        <div className="flex flex-col items-center gap-4">
-          {user ? (
-            <p className="text-xl">Welcome, {user.email}!</p>
-          ) : (
-            <p className="text-xl">Sign in to start planning your trips</p>
-          )}
-          <AuthButton user={user} />
-        </div>
+  if (!user) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <SignInButton />
       </div>
-    </main>
-  );
+    );
+  }
+  else return (
+    <SidebarProvider
+      style={
+        {
+          "--sidebar-width": "calc(var(--spacing) * 72)",
+          "--header-height": "calc(var(--spacing) * 12)",
+        } as React.CSSProperties
+      }
+    >
+      <AppSidebar variant="inset" />
+      <SidebarInset>
+        <SiteHeader />
+        <div className="flex flex-1 flex-col">
+          <div className="@container/main flex flex-1 flex-col gap-2">
+            <div className="flex flex-col gap-4 py-4 md:gap-6 md:py-6">
+              <SectionCards />
+              {/* <div className="px-4 lg:px-6">
+                <ChartAreaInteractive />
+              </div> */}
+              {/* <DataTable data={data} /> */}
+            </div>
+          </div>
+        </div>
+      </SidebarInset>
+    </SidebarProvider>
+  )
 }
