@@ -1,10 +1,12 @@
 "use client";
 
 import * as React from "react";
-import { IconPlus, IconSparkles, IconSearch } from "@tabler/icons-react";
+import { IconPlus, IconSearch } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { TripCard } from "./trip-card";
+import CreateTripButton from "@/components/trip/create-trip-button";
+import CreateWithAI from "@/components/trip/create-with-ai";
 
 // Mock data for trips
 const mockTrips = [
@@ -75,14 +77,8 @@ export function TripsContent() {
 
         {/* Action Buttons */}
         <div className="flex gap-2">
-          <Button variant="outline">
-            <IconPlus className="size-4" />
-            Create Trip
-          </Button>
-          <Button>
-            <IconSparkles className="size-4" />
-            Create with AI
-          </Button>
+          <CreateTripButton />
+          <CreateWithAI />
         </div>
       </div>
 
