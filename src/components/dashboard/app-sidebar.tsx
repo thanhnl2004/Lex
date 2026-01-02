@@ -3,11 +3,9 @@
 import * as React from "react";
 import {
   IconDashboard,
-  IconHelp,
-  IconInnerShadowTop,
-
+  IconPlane,
   IconSettings,
-  IconMap,
+  IconCompass,
 } from "@tabler/icons-react";
 
 import { NavMain } from "@/components/dashboard/nav-main";
@@ -21,28 +19,24 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import Link from "next/link";
 
 const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/",
       icon: IconDashboard,
     },
     {
-      title: "Map",
-      url: "#",
-      icon: IconMap,
+      title: "Trips",
+      url: "/",
+      icon: IconPlane,
     },
     {
       title: "Settings",
-      url: "#",
+      url: "/settings",
       icon: IconSettings,
-    },
-    {
-      title: "Help",
-      url: "#",
-      icon: IconHelp,
     },
   ],
 }
@@ -57,10 +51,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
-              <a href="#">
-                <IconInnerShadowTop className="size-5!" />
+              <Link href="/">
+                <IconCompass className="size-5!" />
                 <span className="text-base font-semibold">Travel Planner</span>
-              </a>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
