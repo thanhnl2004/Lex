@@ -5,7 +5,7 @@ import { IconPlus, IconSearch } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { TripCard } from "./trip-card";
-import CreateTripButton from "@/components/trip/create-trip-button";
+import { CreateTripButton } from "@/components/trip/create-trip-button";
 import CreateWithAI from "@/components/trip/create-with-ai";
 
 // Mock data for trips
