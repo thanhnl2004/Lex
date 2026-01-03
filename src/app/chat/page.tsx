@@ -49,7 +49,6 @@ interface ChatHelpers {
 }
 
 export default function ChatPage() {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-call
   const chatHelpers = useChat({
     transport: new DefaultChatTransport({
       api: '/api/chat',

@@ -5,6 +5,7 @@ import { Inter, Merriweather, JetBrains_Mono } from "next/font/google";
 
 import { TRPCReactProvider } from "@/trpc/react";
 import { AuthProvider } from "@/contexts/auth-context";
+import { ThemeProvider } from "@/components/theme-provider";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
@@ -38,13 +39,21 @@ export default async function RootLayout({
     <html
       lang="en"
       className={`${inter.variable} ${merriweather.variable} ${jetbrainsMono.variable}`}
+      suppressHydrationWarning
     >
       <body className="font-sans antialiased">
-        <TRPCReactProvider>
-          <AuthProvider user={user}>
-            {children}
-          </AuthProvider>
-        </TRPCReactProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <TRPCReactProvider>
+            <AuthProvider user={user}>
+              {children}
+            </AuthProvider>
+          </TRPCReactProvider>
+        </ThemeProvider>
       </body>
     </html>
   );
