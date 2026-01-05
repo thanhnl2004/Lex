@@ -161,11 +161,28 @@
   --shadow-2xl: var(--shadow-2xl);
 }
 
+@keyframes fade-scale {
+  0% {
+    opacity: 0;
+    transform: translateY(-50%) scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(-50%) scale(1);
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  .animate-fade-scale {
+    animation: fade-scale 0.2s ease-out;
   }
 }

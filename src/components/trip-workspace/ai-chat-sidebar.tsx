@@ -1,10 +1,10 @@
 "use client";
 
 import * as React from "react";
-import { IconRobot, IconSparkles, IconSend } from "@tabler/icons-react";
+import { IconRobot, IconSparkles } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { AIInput } from "@/components/ui/ai-input";
 
 interface Message {
   id: number;
@@ -19,11 +19,13 @@ interface AIChatSidebarProps {
 }
 
 export function AIChatSidebar({ tripTitle, messages, quickActions }: AIChatSidebarProps) {
-  const [inputValue, setInputValue] = React.useState("");
+  const handleSubmit = (value: string) => {
+    // Handle message submission
+    console.log("Message submitted:", value);
+  };
 
   return (
-    <div className="flex h-full w-80 flex-col border-r bg-card">
-      {/* Header */}
+    <div className="flex h-full w-lg flex-col border-r bg-card">
       <div className="flex items-center gap-3 border-b p-4">
         <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
           <IconRobot className="size-5 text-primary" />
@@ -65,7 +67,6 @@ export function AIChatSidebar({ tripTitle, messages, quickActions }: AIChatSideb
         </div>
       </div>
 
-      {/* Quick Actions */}
       <div className="border-t p-4">
         <div className="mb-3 flex flex-wrap gap-2">
           {quickActions.map((action) => (
@@ -81,18 +82,13 @@ export function AIChatSidebar({ tripTitle, messages, quickActions }: AIChatSideb
           ))}
         </div>
 
-        {/* Input */}
-        <div className="flex gap-2">
-          <Input
-            placeholder="Ask anything about your trip..."
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            className="flex-1"
-          />
-          <Button size="icon" disabled={!inputValue.trim()}>
-            <IconSend className="size-4" />
-          </Button>
-        </div>
+        <AIInput
+          placeholder="Ask anything about your trip..."
+          onSubmit={handleSubmit}
+          className="py-2"
+          minHeight={44}
+          maxHeight={150}
+        />
       </div>
     </div>
   );
