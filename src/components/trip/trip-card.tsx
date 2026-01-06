@@ -81,7 +81,7 @@ export function TripCard({
       </div>
 
       {/* Content */}
-      <CardContent className="flex flex-col gap-3 p-4">
+      <CardContent className="flex flex-col gap-3 px-4 pb-4">
         <h3 className="text-lg font-semibold leading-tight">{title}</h3>
 
         {/* Details */}

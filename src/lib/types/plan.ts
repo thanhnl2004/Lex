@@ -1,59 +1,58 @@
-// src/lib/types/plan.ts
-export interface TripPlanData {
-  itinerary: DayPlan[];
-  flights: FlightOption[];
-  hotels: HotelOption[];
-  budget: BudgetBreakdown;
+export interface Activity {
+  id: number;
+  type: "transport" | "hotel" | "activity" | "food";
+  title: string;
+  time: string;
+  location?: string;
+  notes?: string;
 }
 
-export interface DayPlan {
+export interface DayItinerary {
   day: number;
   date: string;
   location: string;
   activities: Activity[];
 }
 
-export interface Activity {
-  time: string;
-  title: string;
-  type: "flight" | "hotel" | "food" | "activity" | "transport";
-}
-
 export interface FlightOption {
+  id: number;
   airline: string;
   flightNumber: string;
-  type: "Outbound" | "Return";
-  departureTime: string;
-  departureAirport: string;
-  departureDate: string;
-  arrivalTime: string;
-  arrivalAirport: string;
-  arrivalDate: string;
+  type: "outbound" | "return";
+  departure: { time: string; airport: string; date: string };
+  arrival: { time: string; airport: string; date: string };
   duration: string;
   stops: string;
   price: number;
 }
 
 export interface HotelOption {
+  id: number;
   name: string;
   location: string;
+  rating: number;
   checkIn: string;
   checkOut: string;
   nights: number;
   pricePerNight: number;
   totalPrice: number;
-  rating: number;
-  imageUrl?: string;
 }
 
 export interface BudgetBreakdown {
   total: number;
   budgeted: number;
-  items: BudgetItem[];
+  categories: Array<{
+    name: string;
+    amount: number;
+    percentage: number;
+    icon: string;
+  }>;
 }
 
-export interface BudgetItem {
-  category: string;
-  amount: number;
-  percentage: number;
+// Plan Json Schema
+export interface TripPlanData {
+  itinerary: DayItinerary[];
+  flights: FlightOption[];
+  hotels: HotelOption[];
+  budget: BudgetBreakdown;
 }
