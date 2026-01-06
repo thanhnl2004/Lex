@@ -10,22 +10,10 @@ import {
 } from "@tabler/icons-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-
-interface BudgetCategory {
-  name: string;
-  amount: number;
-  percentage: number;
-  icon: string;
-}
-
-interface BudgetData {
-  total: number;
-  budgeted: number;
-  categories: BudgetCategory[];
-}
+import type { BudgetBreakdown } from "@/lib/types/plan";
 
 interface BudgetTabProps {
-  budget: BudgetData;
+  budget?: BudgetBreakdown;
 }
 
 const categoryIcons: Record<string, React.ElementType> = {
@@ -64,8 +52,12 @@ export function BudgetTab({ budget }: BudgetTabProps) {
     }).format(amount);
   };
 
-  const isOverBudget = budget.total > budget.budgeted;
-  const percentageUsed = Math.round((budget.total / budget.budgeted) * 100);
+  if (!budget?.categories?.length) {
+    return <p>no budget data available</p>
+  }
+
+  const isOverBudget = budget?.total > budget?.budgeted;
+  const percentageUsed = Math.round((budget?.total / budget?.budgeted) * 100);
 
   return (
     <div className="flex flex-col gap-6 p-6">
@@ -86,7 +78,7 @@ export function BudgetTab({ budget }: BudgetTabProps) {
           <div className="flex items-baseline gap-2">
             <span className="text-4xl font-bold">{formatCurrency(budget.total)}</span>
             <span className="text-muted-foreground">
-              / {formatCurrency(budget.budgeted)} budgeted
+              / {formatCurrency(budget?.budgeted)} budgeted
             </span>
           </div>
 
@@ -116,9 +108,9 @@ export function BudgetTab({ budget }: BudgetTabProps) {
         <CardContent>
           <div className="flex flex-col gap-4">
             {budget.categories.map((category) => {
-              const Icon = categoryIcons[category.icon] || IconDots;
-              const iconColor = categoryColors[category.icon] || categoryColors.ellipsis;
-              const barColor = barColors[category.icon] || barColors.ellipsis;
+              const Icon = categoryIcons[category.icon] ?? IconDots;
+              const iconColor = categoryColors[category.icon] ?? categoryColors.ellipsis;
+              const barColor = barColors[category.icon] ?? barColors.ellipsis;
 
               return (
                 <div key={category.name} className="flex items-center gap-4">

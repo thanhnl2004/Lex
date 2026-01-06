@@ -3,23 +3,12 @@ import { IconMapPin, IconClock } from "@tabler/icons-react";
 import { Plane, Building, MapPin, UtensilsCrossed } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-
-interface Activity {
-  id: number;
-  type: "transport" | "hotel" | "activity" | "food";
-  title: string;
-  time: string;
-}
-
-interface DayItinerary {
-  day: number;
-  date: string;
-  location: string;
-  activities: Activity[];
-}
+import { api } from "@/trpc/react";
+import type { DayItinerary, Activity } from "@/lib/types/plan";
 
 interface ItineraryTabProps {
-  itinerary: DayItinerary[];
+  itinerary?: DayItinerary[];
+  planId: number;
 }
 
 const activityIcons = {
@@ -29,10 +18,55 @@ const activityIcons = {
   food: UtensilsCrossed,
 };
 
-export function ItineraryTab({ itinerary }: ItineraryTabProps) {
+export function ItineraryTab({ itinerary, planId }: ItineraryTabProps) {
+  const utils = api.useUtils();
+  const updateActivity = api.activity.update.useMutation({
+    onSuccess: () => {
+      void utils.plan.getLatestByTripId.invalidate();
+    },
+  });
+  const deleteActivity = api.activity.delete.useMutation({
+    onSuccess: () => {
+      void utils.plan.getLatestByTripId.invalidate();
+    },
+  });
+
+  const [editing, setEditing] = React.useState<{
+    day: number;
+    activityId: number;
+    field: "time" | "title"
+  } | null>(null);
+
+  const handleUpdate = (
+    day: number,
+    activityId: number,
+    field: "time" | "title",
+    value: string,
+  ) => {
+    updateActivity.mutate({
+      planId,
+      day,
+      activityId,
+      updates: {
+        [field]: value,
+      },
+    });
+    setEditing(null);
+  };
+
+  const handleDelete = (day: number, activityId: number) => {
+    deleteActivity.mutate({
+      planId,
+      day,
+      activityId,
+    });
+    setEditing(null);
+  };
+
+
   return (
     <div className="flex flex-col gap-6 px-24 py-6">
-      {itinerary.map((day) => (
+      {itinerary?.map((day) => (
         <Card key={day.day}>
           {/* Day Header */}
           <div className="flex items-center justify-between border-b px-6 py-4">

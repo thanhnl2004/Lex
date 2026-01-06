@@ -2,7 +2,6 @@ import { z } from "zod";
 import { createTRPCRouter, protectedProcedure } from "@/server/api/trpc";
 import { TRPCError } from "@trpc/server";
 import type { InputJsonValue } from "@prisma/client/runtime/library";
-import type { TripPlanData } from "@/lib/types/plan";
 
 export const planRouter = createTRPCRouter({
   createDraft: protectedProcedure
@@ -24,7 +23,7 @@ export const planRouter = createTRPCRouter({
       return await ctx.db.tripPlan.create({
         data: {
           tripId,
-          plan: plan as InputJsonValue,
+          plan: plan as unknown as InputJsonValue,
           sources: sources as InputJsonValue,
         },
       });

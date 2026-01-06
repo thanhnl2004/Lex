@@ -36,6 +36,7 @@ export interface HotelOption {
   nights: number;
   pricePerNight: number;
   totalPrice: number;
+  imageUrl?: string;
 }
 
 export interface BudgetBreakdown {

@@ -3,29 +3,11 @@ import { IconPlane, IconClock, IconArrowRight } from "@tabler/icons-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import type { FlightOption } from "@/lib/types/plan";
 
-interface Flight {
-  id: number;
-  airline: string;
-  flightNumber: string;
-  type: "outbound" | "return";
-  departure: {
-    time: string;
-    airport: string;
-    date: string;
-  };
-  arrival: {
-    time: string;
-    airport: string;
-    date: string;
-  };
-  duration: string;
-  stops: string;
-  price: number;
-}
 
 interface FlightsTabProps {
-  flights: Flight[];
+  flights?: FlightOption[];
 }
 
 export function FlightsTab({ flights }: FlightsTabProps) {
@@ -39,7 +21,7 @@ export function FlightsTab({ flights }: FlightsTabProps) {
 
   return (
     <div className="flex flex-col gap-4 p-6">
-      {flights.map((flight) => (
+      {flights?.map((flight) => (
         <Card key={flight.id}>
           <CardContent className="p-6">
             {/* Header */}

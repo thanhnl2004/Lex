@@ -2,22 +2,10 @@ import * as React from "react";
 import Image from "next/image";
 import { IconMapPin, IconCalendar, IconStar } from "@tabler/icons-react";
 import { Card, CardContent } from "@/components/ui/card";
-
-interface Hotel {
-  id: number;
-  name: string;
-  location: string;
-  rating: number;
-  checkIn: string;
-  checkOut: string;
-  nights: number;
-  pricePerNight: number;
-  totalPrice: number;
-  imageUrl: string;
-}
+import type { HotelOption } from "@/lib/types/plan";
 
 interface HotelsTabProps {
-  hotels: Hotel[];
+  hotels?: HotelOption[];
 }
 
 export function HotelsTab({ hotels }: HotelsTabProps) {
@@ -31,13 +19,13 @@ export function HotelsTab({ hotels }: HotelsTabProps) {
 
   return (
     <div className="flex flex-col gap-4 p-6">
-      {hotels.map((hotel) => (
+      {hotels?.map((hotel) => (
         <Card key={hotel.id} className="overflow-hidden">
           <CardContent className="flex gap-6 p-0">
             {/* Hotel Image */}
             <div className="relative h-40 w-40 shrink-0">
               <Image
-                src={hotel.imageUrl}
+                src={hotel.imageUrl ?? ""}
                 alt={hotel.name}
                 fill
                 className="object-cover"

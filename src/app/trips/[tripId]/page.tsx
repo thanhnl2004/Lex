@@ -25,13 +25,63 @@ import {
   mockChatMessages,
   quickActions,
 } from "@/lib/mock-data/trip-workspace";
+import { api } from "@/trpc/react";
+import { useParams } from "next/navigation";
+import type { TripPlanData } from "@/lib/types/plan";
 
 export default function TripWorkspacePage() {
+  const params = useParams<{ tripId: string }>();
+  const tripId = Number(params.tripId);
+
+  const { data: trip, isLoading: tripLoading } = api.trip.getById.useQuery(
+    { id: tripId },
+    { enabled: !!tripId && !isNaN(tripId)}
+  );
+
+  const { data: plan, isLoading: planLoading } = api.plan.getLatestByTripId.useQuery(
+    { tripId },
+    { enabled: !!tripId && !isNaN(tripId)}
+  );
+
+  const planData = React.useMemo<TripPlanData | null>(() => {
+    if (!plan?.plan) return null;
+    return plan.plan as unknown as TripPlanData;
+  }, [plan]);
+
+  if (tripLoading || planLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="text-center">
+          <div className="text-lg font-semibold">Loading trip...</div>
+          <div className="text-sm text-muted-foreground">Please wait</div>
+        </div>
+      </div>
+    );
+  }
+  if (!trip) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <div className="text-center">
+          <div className="text-lg font-semibold">Trip not found</div>
+          <div className="text-sm text-muted-foreground">This trip doesn&apos;t exist or you don&apos;t have access</div>
+        </div>
+      </div>
+    );
+  }
+
+  const intinerary = planData?.itinerary;
+  const flights = planData?.flights;
+  const hotels = planData?.hotels;
+  const budget = planData?.budget;
+
+  const startDate = trip.startDate?.toISOString() ?? "";
+  const endDate = trip.endDate?.toISOString() ?? "";
+
   return (
     <div className="flex h-screen">
       {/* AI Chat Sidebar */}
       <AIChatSidebar
-        tripTitle={mockTrip.title}
+        tripTitle={trip.title}
         messages={mockChatMessages}
         quickActions={quickActions}
       />
@@ -40,10 +90,10 @@ export default function TripWorkspacePage() {
       <div className="flex flex-1 flex-col overflow-hidden">
         {/* Trip Header */}
         <TripHeader
-          title={mockTrip.title}
-          destination={mockTrip.destination}
-          startDate={mockTrip.startDate}
-          endDate={mockTrip.endDate}
+          title={trip.title}
+          destination={trip.destination}
+          startDate={startDate}
+          endDate={endDate}
         />
 
         {/* Tabs */}
@@ -83,16 +133,16 @@ export default function TripWorkspacePage() {
 
           <div className="flex-1 overflow-y-auto">
             <TabsContent value="itinerary" className="m-0 h-full">
-              <ItineraryTab itinerary={mockItinerary} />
+              <ItineraryTab itinerary={intinerary} planId={plan?.id ?? 0} />
             </TabsContent>
             <TabsContent value="flights" className="m-0 h-full">
-              <FlightsTab flights={mockFlights} />
+              <FlightsTab flights={flights} />
             </TabsContent>
             <TabsContent value="hotels" className="m-0 h-full">
-              <HotelsTab hotels={mockHotels} />
+              <HotelsTab hotels={hotels} />
             </TabsContent>
             <TabsContent value="budget" className="m-0 h-full">
-              <BudgetTab budget={mockBudget} />
+              <BudgetTab budget={budget} />
             </TabsContent>
           </div>
         </Tabs>
