@@ -16,15 +16,7 @@ import {
   HotelsTab,
   BudgetTab,
 } from "@/components/trip-workspace";
-import {
-  mockTrip,
-  mockItinerary,
-  mockFlights,
-  mockHotels,
-  mockBudget,
-  mockChatMessages,
-  quickActions,
-} from "@/lib/mock-data/trip-workspace";
+import { quickActions } from "@/lib/mock-data/trip-workspace";
 import { api } from "@/trpc/react";
 import { useParams } from "next/navigation";
 import type { TripPlanData } from "@/lib/types/plan";
@@ -69,7 +61,7 @@ export default function TripWorkspacePage() {
     );
   }
 
-  const intinerary = planData?.itinerary;
+  const itinerary = planData?.itinerary;
   const flights = planData?.flights;
   const hotels = planData?.hotels;
   const budget = planData?.budget;
@@ -82,7 +74,7 @@ export default function TripWorkspacePage() {
       {/* AI Chat Sidebar */}
       <AIChatSidebar
         tripTitle={trip.title}
-        messages={mockChatMessages}
+        messages={[]}
         quickActions={quickActions}
       />
 
@@ -133,7 +125,7 @@ export default function TripWorkspacePage() {
 
           <div className="flex-1 overflow-y-auto">
             <TabsContent value="itinerary" className="m-0 h-full">
-              <ItineraryTab itinerary={intinerary} planId={plan?.id ?? 0} />
+              <ItineraryTab itinerary={itinerary} planId={plan?.id ?? 0} />
             </TabsContent>
             <TabsContent value="flights" className="m-0 h-full">
               <FlightsTab flights={flights} />

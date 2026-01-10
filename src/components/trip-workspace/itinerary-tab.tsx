@@ -1,10 +1,10 @@
 import * as React from "react";
-import { IconMapPin, IconClock } from "@tabler/icons-react";
+import { IconMapPin, IconClock, IconCalendarEvent } from "@tabler/icons-react";
 import { Plane, Building, MapPin, UtensilsCrossed } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { api } from "@/trpc/react";
-import type { DayItinerary, Activity } from "@/lib/types/plan";
+import type { DayItinerary } from "@/lib/types/plan";
 
 interface ItineraryTabProps {
   itinerary?: DayItinerary[];
@@ -63,10 +63,25 @@ export function ItineraryTab({ itinerary, planId }: ItineraryTabProps) {
     setEditing(null);
   };
 
+  if (!itinerary || itinerary.length === 0) {
+    return (
+      <div className="flex h-full items-center justify-center p-6">
+        <div className="text-center">
+          <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-full bg-muted">
+            <IconCalendarEvent className="size-6 text-muted-foreground" />
+          </div>
+          <p className="font-medium text-muted-foreground">No itinerary yet</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Ask the AI to create a travel plan for your trip.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex flex-col gap-6 px-24 py-6">
-      {itinerary?.map((day) => (
+      {itinerary.map((day) => (
         <Card key={day.day}>
           {/* Day Header */}
           <div className="flex items-center justify-between border-b px-6 py-4">

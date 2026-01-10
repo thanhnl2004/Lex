@@ -53,7 +53,19 @@ export function BudgetTab({ budget }: BudgetTabProps) {
   };
 
   if (!budget?.categories?.length) {
-    return <p>no budget data available</p>
+    return (
+      <div className="flex h-full items-center justify-center p-6">
+        <div className="text-center">
+          <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-full bg-muted">
+            <IconDots className="size-6 text-muted-foreground" />
+          </div>
+          <p className="font-medium text-muted-foreground">No budget data yet</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Ask the AI to generate a budget breakdown for your trip.
+          </p>
+        </div>
+      </div>
+    );
   }
 
   const isOverBudget = budget?.total > budget?.budgeted;

@@ -19,9 +19,25 @@ export function FlightsTab({ flights }: FlightsTabProps) {
     }).format(amount);
   };
 
+  if (!flights || flights.length === 0) {
+    return (
+      <div className="flex h-full items-center justify-center p-6">
+        <div className="text-center">
+          <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-full bg-muted">
+            <IconPlane className="size-6 text-muted-foreground" />
+          </div>
+          <p className="font-medium text-muted-foreground">No flight options yet</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Ask the AI to search for flights for your trip.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-4 p-6">
-      {flights?.map((flight) => (
+      {flights.map((flight) => (
         <Card key={flight.id}>
           <CardContent className="p-6">
             {/* Header */}

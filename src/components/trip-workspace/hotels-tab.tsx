@@ -1,6 +1,6 @@
 import * as React from "react";
 import Image from "next/image";
-import { IconMapPin, IconCalendar, IconStar } from "@tabler/icons-react";
+import { IconMapPin, IconCalendar, IconStar, IconBuilding } from "@tabler/icons-react";
 import { Card, CardContent } from "@/components/ui/card";
 import type { HotelOption } from "@/lib/types/plan";
 
@@ -17,19 +17,41 @@ export function HotelsTab({ hotels }: HotelsTabProps) {
     }).format(amount);
   };
 
+  if (!hotels || hotels.length === 0) {
+    return (
+      <div className="flex h-full items-center justify-center p-6">
+        <div className="text-center">
+          <div className="mx-auto mb-4 flex size-12 items-center justify-center rounded-full bg-muted">
+            <IconBuilding className="size-6 text-muted-foreground" />
+          </div>
+          <p className="font-medium text-muted-foreground">No hotel options yet</p>
+          <p className="mt-1 text-sm text-muted-foreground">
+            Ask the AI to search for hotels for your trip.
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col gap-4 p-6">
-      {hotels?.map((hotel) => (
+      {hotels.map((hotel) => (
         <Card key={hotel.id} className="overflow-hidden">
           <CardContent className="flex gap-6 p-0">
             {/* Hotel Image */}
             <div className="relative h-40 w-40 shrink-0">
-              <Image
-                src={hotel.imageUrl ?? ""}
-                alt={hotel.name}
-                fill
-                className="object-cover"
-              />
+              {hotel.imageUrl ? (
+                <Image
+                  src={hotel.imageUrl}
+                  alt={hotel.name}
+                  fill
+                  className="object-cover"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center bg-muted">
+                  <IconBuilding className="size-8 text-muted-foreground" />
+                </div>
+              )}
             </div>
 
             {/* Hotel Info */}
