@@ -13,6 +13,7 @@ interface AIInputProps {
   maxHeight?: number;
   onSubmit?: (value: string) => void;
   className?: string;
+  disabled?: boolean;
 }
 
 export function AIInput({
@@ -22,6 +23,7 @@ export function AIInput({
   maxHeight = 200,
   onSubmit,
   className,
+  disabled = false,
 }: AIInputProps) {
   const { textareaRef, adjustHeight } = useAutoResizeTextarea({
     minHeight,
@@ -30,7 +32,7 @@ export function AIInput({
   const [inputValue, setInputValue] = useState("");
 
   const handleReset = () => {
-    if (!inputValue.trim()) return;
+    if (!inputValue.trim() || disabled) return;
     onSubmit?.(inputValue);
     setInputValue("");
     adjustHeight(true);
@@ -42,6 +44,7 @@ export function AIInput({
         <Textarea
           id={id}
           placeholder={placeholder}
+          disabled={disabled}
           className={cn(
             "w-full bg-black/5 dark:bg-white/5 rounded-3xl pl-6 pr-16",
             "placeholder:text-black/50 dark:placeholder:text-white/50",
@@ -51,7 +54,8 @@ export function AIInput({
             "focus-visible:ring-0 focus-visible:ring-offset-0",
             "transition-[height] duration-100 ease-out",
             "leading-[1.2] py-[16px]",
-            "[&::-webkit-resizer]:hidden"
+            "[&::-webkit-resizer]:hidden",
+            disabled && "opacity-50 cursor-not-allowed"
           )}
           style={{
             minHeight: `${minHeight}px`,

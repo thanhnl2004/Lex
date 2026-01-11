@@ -74,7 +74,7 @@ export default function TripWorkspacePage() {
       {/* AI Chat Sidebar */}
       <AIChatSidebar
         tripTitle={trip.title}
-        messages={[]}
+        tripId={tripId}
         quickActions={quickActions}
       />
 
