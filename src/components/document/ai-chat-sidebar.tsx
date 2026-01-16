@@ -8,13 +8,19 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { AIInput } from "@/components/ui/ai-input";
 
-interface AIChatSidebarProps {
-  tripTitle: string;
-  tripId: number;
-  quickActions: { label: string; icon: string }[];
+interface DocumentAIChatSidebarProps {
+  documentTitle: string;
+  documentId: string;
 }
 
-export function AIChatSidebar({ tripTitle, tripId: _tripId, quickActions }: AIChatSidebarProps) {
+const quickActions = [
+  { label: "Improve writing", icon: "sparkles" },
+  { label: "Fix grammar", icon: "check" },
+  { label: "Make it shorter", icon: "compress" },
+  { label: "Research topic", icon: "search" },
+];
+
+export function DocumentAIChatSidebar({ documentTitle, documentId: _documentId }: DocumentAIChatSidebarProps) {
   const messagesEndRef = React.useRef<HTMLDivElement>(null);
 
   const { messages, sendMessage, status, error, stop } = useChat({
@@ -59,9 +65,9 @@ export function AIChatSidebar({ tripTitle, tripId: _tripId, quickActions }: AICh
         <div className="flex size-10 items-center justify-center rounded-lg bg-primary/10">
           <IconRobot className="size-5 text-primary" />
         </div>
-        <div>
-          <h2 className="font-semibold">AI Travel Assistant</h2>
-          <p className="text-sm text-muted-foreground">{tripTitle}</p>
+        <div className="min-w-0 flex-1">
+          <h2 className="font-semibold">AI Assistant</h2>
+          <p className="truncate text-sm text-muted-foreground">{documentTitle}</p>
         </div>
       </div>
 
@@ -80,9 +86,9 @@ export function AIChatSidebar({ tripTitle, tripId: _tripId, quickActions }: AICh
               <div className="mb-3 flex size-12 items-center justify-center rounded-full bg-primary/10">
                 <IconRobot className="size-6 text-primary" />
               </div>
-              <p className="text-sm font-medium">How can I help plan your trip?</p>
+              <p className="text-sm font-medium">How can I help with your document?</p>
               <p className="mt-1 text-xs text-muted-foreground">
-                Ask me to find flights, hotels, or create an itinerary.
+                Ask me to edit, improve, or research content.
               </p>
             </div>
           )}
@@ -161,7 +167,7 @@ export function AIChatSidebar({ tripTitle, tripId: _tripId, quickActions }: AICh
         )}
 
         <AIInput
-          placeholder="Ask anything about your trip..."
+          placeholder="Ask anything about your document..."
           onSubmit={(value) => void handleSubmit(value)}
           className="py-2"
           minHeight={44}

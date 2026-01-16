@@ -1,42 +1,24 @@
-import { AppSidebar } from "@/components/dashboard/app-sidebar";
-import { SiteHeader } from "@/components/dashboard/site-header";
-import { TripsContent } from "@/components/trip/trips-content";
-import {
-  SidebarInset,
-  SidebarProvider,
-} from "@/components/ui/sidebar";
-
 import { createClient } from "@/lib/supabase/server";
 import { SignInButton } from "@/components/auth-button";
+import { redirect } from "next/navigation";
 
 export default async function Page() {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
 
-  if (!user) {
-    return (
-      <div className="flex justify-center items-center h-screen">
+  if (user) {
+    redirect("/documents");
+  }
+
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center">
+      <div className="flex flex-col items-center gap-6 text-center">
+        <h1 className="text-4xl font-bold tracking-tight">Lex</h1>
+        <p className="text-lg text-muted-foreground">
+          AI-powered document editor
+        </p>
         <SignInButton />
       </div>
-    );
-  }
-  
-  return (
-    <SidebarProvider
-      style={
-        {
-          "--sidebar-width": "calc(var(--spacing) * 72)",
-          "--header-height": "calc(var(--spacing) * 12)",
-        } as React.CSSProperties
-      }
-    >
-      <AppSidebar variant="inset" />
-      <SidebarInset>
-        <SiteHeader />
-        <div className="flex flex-1 flex-col">
-          <TripsContent />
-        </div>
-      </SidebarInset>
-    </SidebarProvider>
+    </div>
   );
 }

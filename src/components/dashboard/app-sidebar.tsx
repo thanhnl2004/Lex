@@ -2,10 +2,9 @@
 
 import * as React from "react";
 import {
-  IconDashboard,
-  IconPlane,
   IconSettings,
-  IconCompass,
+  IconFileText,
+  IconPencil,
 } from "@tabler/icons-react";
 
 import { NavMain } from "@/components/dashboard/nav-main";
@@ -24,14 +23,9 @@ import Link from "next/link";
 const data = {
   navMain: [
     {
-      title: "Dashboard",
-      url: "/",
-      icon: IconDashboard,
-    },
-    {
-      title: "Trips",
-      url: "/",
-      icon: IconPlane,
+      title: "Documents",
+      url: "/documents",
+      icon: IconFileText,
     },
     {
       title: "Settings",
@@ -51,9 +45,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
-              <Link href="/">
-                <IconCompass className="size-5!" />
-                <span className="text-base font-semibold">Travel Planner</span>
+              <Link href="/documents">
+                <IconPencil className="size-5!" />
+                <span className="text-base font-semibold">Lex</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>

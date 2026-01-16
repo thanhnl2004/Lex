@@ -9,8 +9,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { createClient } from "@/lib/supabase/server";
 
 export const metadata: Metadata = {
-  title: "Travel Planner",
-  description: "Plan your perfect trip",
+  title: "Lex",
+  description: "AI-powered document editor",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
