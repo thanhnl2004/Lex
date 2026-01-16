@@ -121,6 +121,24 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.DocumentScalarFieldEnum = {
+  userId: 'userId',
+  id: 'id',
+  title: 'title',
+  contentJson: 'contentJson',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.DocumentMessageScalarFieldEnum = {
+  id: 'id',
+  documentId: 'documentId',
+  createdAt: 'createdAt',
+  role: 'role',
+  content: 'content',
+  partsJson: 'partsJson'
+};
+
 exports.Prisma.TripScalarFieldEnum = {
   userId: 'userId',
   id: 'id',
@@ -168,15 +186,15 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-
 exports.Prisma.JsonNullValueFilter = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 exports.Role = exports.$Enums.Role = {
   USER: 'USER',
@@ -186,6 +204,8 @@ exports.Role = exports.$Enums.Role = {
 };
 
 exports.Prisma.ModelName = {
+  Document: 'Document',
+  DocumentMessage: 'DocumentMessage',
   Trip: 'Trip',
   TripMessage: 'TripMessage',
   TripPlan: 'TripPlan'

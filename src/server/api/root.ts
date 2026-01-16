@@ -3,6 +3,7 @@ import { tripRouter } from "./routers/trip";
 import { planRouter } from "./routers/plan";
 import { messageRouter } from "./routers/message";
 import { activityRouter } from "./routers/activity";
+import { documentRouter } from "./routers/document";
 
 /**
  * This is the primary router for your server.
@@ -14,6 +15,7 @@ export const appRouter = createTRPCRouter({
   plan: planRouter,
   message: messageRouter,
   activity: activityRouter,
+  document: documentRouter,
 });
 
 // export type definition of API

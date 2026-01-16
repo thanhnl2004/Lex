@@ -93,6 +93,24 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.DocumentScalarFieldEnum = {
+  userId: 'userId',
+  id: 'id',
+  title: 'title',
+  contentJson: 'contentJson',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.DocumentMessageScalarFieldEnum = {
+  id: 'id',
+  documentId: 'documentId',
+  createdAt: 'createdAt',
+  role: 'role',
+  content: 'content',
+  partsJson: 'partsJson'
+};
+
 exports.Prisma.TripScalarFieldEnum = {
   userId: 'userId',
   id: 'id',
@@ -140,15 +158,15 @@ exports.Prisma.QueryMode = {
   insensitive: 'insensitive'
 };
 
-exports.Prisma.NullsOrder = {
-  first: 'first',
-  last: 'last'
-};
-
 exports.Prisma.JsonNullValueFilter = {
   DbNull: Prisma.DbNull,
   JsonNull: Prisma.JsonNull,
   AnyNull: Prisma.AnyNull
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
 };
 exports.Role = exports.$Enums.Role = {
   USER: 'USER',
@@ -158,6 +176,8 @@ exports.Role = exports.$Enums.Role = {
 };
 
 exports.Prisma.ModelName = {
+  Document: 'Document',
+  DocumentMessage: 'DocumentMessage',
   Trip: 'Trip',
   TripMessage: 'TripMessage',
   TripPlan: 'TripPlan'
@@ -173,7 +193,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/Users/Admin/Developer/fullstack/travel-planner/generated/prisma",
+      "value": "/Users/Admin/Developer/fullstack/lex/generated/prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -187,7 +207,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "/Users/Admin/Developer/fullstack/travel-planner/prisma/schema.prisma",
+    "sourceFilePath": "/Users/Admin/Developer/fullstack/lex/prisma/schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -201,7 +221,6 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -210,13 +229,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum Role {\n  USER\n  ASSISTANT\n  SYSTEM\n  TOOL\n}\n\nmodel Trip {\n  userId      String\n  id          Int           @id @default(autoincrement())\n  title       String\n  destination String\n  startDate   DateTime?\n  endDate     DateTime?\n  createdAt   DateTime      @default(now())\n  updatedAt   DateTime      @updatedAt\n  budget      Int?\n  messages    TripMessage[]\n  plans       TripPlan[]\n\n  @@index([userId])\n}\n\nmodel TripMessage {\n  id        Int      @id @default(autoincrement())\n  tripId    Int\n  trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)\n  createdAt DateTime @default(now())\n  role      Role\n  content   String\n\n  @@index([tripId, createdAt])\n}\n\nmodel TripPlan {\n  id        Int      @id @default(autoincrement())\n  plan      Json\n  sources   Json?\n  createdAt DateTime @default(now())\n  tripId    Int\n  trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)\n\n  @@index([tripId, createdAt])\n}\n",
-  "inlineSchemaHash": "4c7bd83fc935cb44e0f396e72e27a9b21d23dd626702b30230eacd897744e791",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"../generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nenum Role {\n  USER\n  ASSISTANT\n  SYSTEM\n  TOOL\n}\n\nmodel Document {\n  userId      String\n  id          String            @id @default(uuid())\n  title       String\n  contentJson Json // TipTap JSON content\n  createdAt   DateTime          @default(now())\n  updatedAt   DateTime          @updatedAt\n  messages    DocumentMessage[]\n\n  @@index([userId])\n}\n\nmodel DocumentMessage {\n  id         Int      @id @default(autoincrement())\n  documentId String\n  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)\n  createdAt  DateTime @default(now())\n  role       Role\n  content    String\n  partsJson  Json? // Optional: structured message parts (for future use)\n\n  @@index([documentId, createdAt])\n}\n\nmodel Trip {\n  userId      String\n  id          Int           @id @default(autoincrement())\n  title       String\n  destination String\n  startDate   DateTime?\n  endDate     DateTime?\n  createdAt   DateTime      @default(now())\n  updatedAt   DateTime      @updatedAt\n  budget      Int?\n  messages    TripMessage[]\n  plans       TripPlan[]\n\n  @@index([userId])\n}\n\nmodel TripMessage {\n  id        Int      @id @default(autoincrement())\n  tripId    Int\n  trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)\n  createdAt DateTime @default(now())\n  role      Role\n  content   String\n\n  @@index([tripId, createdAt])\n}\n\nmodel TripPlan {\n  id        Int      @id @default(autoincrement())\n  plan      Json\n  sources   Json?\n  createdAt DateTime @default(now())\n  tripId    Int\n  trip      Trip     @relation(fields: [tripId], references: [id], onDelete: Cascade)\n\n  @@index([tripId, createdAt])\n}\n",
+  "inlineSchemaHash": "a8899de9a0f603d285b4bd7626158841ed35289871c3bf335db70ae1d911ca38",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"Trip\":{\"fields\":[{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"destination\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"startDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"budget\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"messages\",\"kind\":\"object\",\"type\":\"TripMessage\",\"relationName\":\"TripToTripMessage\"},{\"name\":\"plans\",\"kind\":\"object\",\"type\":\"TripPlan\",\"relationName\":\"TripToTripPlan\"}],\"dbName\":null},\"TripMessage\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"tripId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"trip\",\"kind\":\"object\",\"type\":\"Trip\",\"relationName\":\"TripToTripMessage\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"TripPlan\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"plan\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"sources\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"tripId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"trip\",\"kind\":\"object\",\"type\":\"Trip\",\"relationName\":\"TripToTripPlan\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"Document\":{\"fields\":[{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contentJson\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"messages\",\"kind\":\"object\",\"type\":\"DocumentMessage\",\"relationName\":\"DocumentToDocumentMessage\"}],\"dbName\":null},\"DocumentMessage\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"documentId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"document\",\"kind\":\"object\",\"type\":\"Document\",\"relationName\":\"DocumentToDocumentMessage\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"partsJson\",\"kind\":\"scalar\",\"type\":\"Json\"}],\"dbName\":null},\"Trip\":{\"fields\":[{\"name\":\"userId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"destination\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"startDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endDate\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"budget\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"messages\",\"kind\":\"object\",\"type\":\"TripMessage\",\"relationName\":\"TripToTripMessage\"},{\"name\":\"plans\",\"kind\":\"object\",\"type\":\"TripPlan\",\"relationName\":\"TripToTripPlan\"}],\"dbName\":null},\"TripMessage\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"tripId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"trip\",\"kind\":\"object\",\"type\":\"Trip\",\"relationName\":\"TripToTripMessage\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"Role\"},{\"name\":\"content\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":null},\"TripPlan\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"plan\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"sources\",\"kind\":\"scalar\",\"type\":\"Json\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"tripId\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"trip\",\"kind\":\"object\",\"type\":\"Trip\",\"relationName\":\"TripToTripPlan\"}],\"dbName\":null}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

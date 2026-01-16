@@ -2,41 +2,11 @@
 
 import * as React from "react";
 import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
+import { DefaultChatTransport, isTextUIPart } from "ai";
 import { IconRobot, IconSparkles, IconLoader2 } from "@tabler/icons-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { AIInput } from "@/components/ui/ai-input";
-
-// Type definitions based on AI SDK v6
-interface TextPart {
-  type: "text";
-  text: string;
-}
-
-interface ToolPart {
-  type: string;
-  toolCallId: string;
-  state: "input-streaming" | "input-available" | "output-available" | "output-error";
-  input?: Record<string, unknown>;
-  output?: unknown;
-}
-
-type MessagePart = TextPart | ToolPart | { type: string };
-
-interface ChatMessage {
-  id: string;
-  role: "user" | "assistant" | "system";
-  parts: MessagePart[];
-}
-
-interface ChatHelpers {
-  messages: ChatMessage[];
-  sendMessage: (message: { text: string }) => Promise<void>;
-  status: "ready" | "streaming" | "submitted" | "error";
-  error: Error | undefined;
-  stop: () => void;
-}
 
 interface AIChatSidebarProps {
   tripTitle: string;
@@ -44,16 +14,14 @@ interface AIChatSidebarProps {
   quickActions: { label: string; icon: string }[];
 }
 
-export function AIChatSidebar({ tripTitle, tripId, quickActions }: AIChatSidebarProps) {
+export function AIChatSidebar({ tripTitle, tripId: _tripId, quickActions }: AIChatSidebarProps) {
   const messagesEndRef = React.useRef<HTMLDivElement>(null);
 
-  const chatHelpers = useChat({
+  const { messages, sendMessage, status, error, stop } = useChat({
     transport: new DefaultChatTransport({
       api: "/api/chat",
     }),
-  }) as unknown as ChatHelpers;
-
-  const { messages, sendMessage, status, error, stop } = chatHelpers;
+  });
 
   const isLoading = status === "streaming" || status === "submitted";
 
@@ -72,16 +40,16 @@ export function AIChatSidebar({ tripTitle, tripId, quickActions }: AIChatSidebar
   };
 
   // Extract text content from message parts
-  const getMessageText = (parts: MessagePart[]): string => {
+  const getMessageText = (parts: typeof messages[0]["parts"]): string => {
     return parts
-      .filter((part): part is TextPart => part.type === "text")
+      .filter(isTextUIPart)
       .map((part) => part.text)
       .join("");
   };
 
   // Check if message has tool invocations
-  const hasToolInvocations = (parts: MessagePart[]): boolean => {
-    return parts.some((part) => part.type.startsWith("tool-"));
+  const hasToolInvocations = (parts: typeof messages[0]["parts"]): boolean => {
+    return parts.some((part) => "type" in part && typeof part.type === "string" && part.type.startsWith("tool-"));
   };
 
   return (

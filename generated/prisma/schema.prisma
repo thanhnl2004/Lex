@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
@@ -16,6 +13,30 @@ enum Role {
   ASSISTANT
   SYSTEM
   TOOL
+}
+
+model Document {
+  userId      String
+  id          String            @id @default(uuid())
+  title       String
+  contentJson Json // TipTap JSON content
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
+  messages    DocumentMessage[]
+
+  @@index([userId])
+}
+
+model DocumentMessage {
+  id         Int      @id @default(autoincrement())
+  documentId String
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
+  role       Role
+  content    String
+  partsJson  Json? // Optional: structured message parts (for future use)
+
+  @@index([documentId, createdAt])
 }
 
 model Trip {
