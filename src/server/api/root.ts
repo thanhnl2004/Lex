@@ -4,6 +4,7 @@ import { planRouter } from "./routers/plan";
 import { messageRouter } from "./routers/message";
 import { activityRouter } from "./routers/activity";
 import { documentRouter } from "./routers/document";
+import { documentMessageRouter } from "./routers/document-message";
 
 /**
  * This is the primary router for your server.
@@ -16,6 +17,7 @@ export const appRouter = createTRPCRouter({
   message: messageRouter,
   activity: activityRouter,
   document: documentRouter,
+  documentMessage: documentMessageRouter,
 });
 
 // export type definition of API
